@@ -60,13 +60,25 @@ const Contacts = () => {
   };
 
   //filtercontacts
-  const filterContacts = (name) => {
+  const filterContacts = [];
+
+  const handleFilterContacts = (name) => {
     console.log(name);
+    Object.keys(contact).map((id) => {
+      if (contact[id].fullName.toLowerCase().replace(/\s/g, "") === name) {
+        filterContacts.push(contact[id]);
+        console.log(filterContacts);
+      }
+    });
+    if (filterContacts.length === 0) {
+      console.log("not found");
+    }
   };
+  console.log(filterContacts.length);
 
   return (
     <>
-      <Search filterContacts={filterContacts} />
+      <Search handleFilterContacts={handleFilterContacts} />
       <div className="container">
         <div className="jumbotron jumbotron-fluid">
           <div className="container">
@@ -91,35 +103,65 @@ const Contacts = () => {
                 </tr>
               </thead>
               <tbody>
-                {Object.keys(contact).map((id) => {
-                  return (
-                    <tr key={id}>
-                      <td>{contact[id].fullName}</td>
-                      <td>{contact[id].mobile}</td>
-                      <td>{contact[id].email}</td>
-                      <td>{contact[id].address}</td>
+                {filterContacts.length === 0
+                  ? Object.keys(contact).map((id) => {
+                      return (
+                        <tr key={id}>
+                          <td>{contact[id].fullName}</td>
+                          <td>{contact[id].mobile}</td>
+                          <td>{contact[id].email}</td>
+                          <td>{contact[id].address}</td>
 
-                      <td>
-                        <a className="btn text-primary">
-                          <i
-                            className="fas fa-pencil-alt"
-                            onClick={() => setCurrentId(id)}
-                          >
-                            edit
-                          </i>
-                        </a>
-                        <a className="btn text-primary">
-                          <i
-                            className="fas fa-trash-alt"
-                            onClick={() => onDelete(id)}
-                          >
-                            delete
-                          </i>
-                        </a>
-                      </td>
-                    </tr>
-                  );
-                })}
+                          <td>
+                            <a className="btn text-primary">
+                              <i
+                                className="fas fa-pencil-alt"
+                                onClick={() => setCurrentId(id)}
+                              >
+                                edit
+                              </i>
+                            </a>
+                            <a className="btn text-primary">
+                              <i
+                                className="fas fa-trash-alt"
+                                onClick={() => onDelete(id)}
+                              >
+                                delete
+                              </i>
+                            </a>
+                          </td>
+                        </tr>
+                      );
+                    })
+                  : filterContacts.map((item, id) => {
+                      return (
+                        <tr key={id}>
+                          <td>{contact[id].fullName}</td>
+                          <td>{contact[id].mobile}</td>
+                          <td>{contact[id].email}</td>
+                          <td>{contact[id].address}</td>
+
+                          <td>
+                            <a className="btn text-primary">
+                              <i
+                                className="fas fa-pencil-alt"
+                                onClick={() => setCurrentId(id)}
+                              >
+                                edit
+                              </i>
+                            </a>
+                            <a className="btn text-primary">
+                              <i
+                                className="fas fa-trash-alt"
+                                onClick={() => onDelete(id)}
+                              >
+                                delete
+                              </i>
+                            </a>
+                          </td>
+                        </tr>
+                      );
+                    })}
               </tbody>
             </table>
           </div>

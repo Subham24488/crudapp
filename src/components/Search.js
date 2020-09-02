@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 
-const Search = ({ filterContacts }) => {
+const Search = ({ handleFilterContacts }) => {
   const [search, setSearch] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
     const searchContact = search.toLowerCase().replace(/\s/g, "");
 
-    filterContacts(searchContact);
+    handleFilterContacts(searchContact);
   };
 
   return (
